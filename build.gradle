@@ -12,12 +12,19 @@ sourceCompatibility = '1.8'
 repositories {
     mavenCentral()
 }
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compile("org.springframework.boot:spring-boot-starter-web")
     testCompile("junit:junit")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 
