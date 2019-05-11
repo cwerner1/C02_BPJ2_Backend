@@ -1,11 +1,13 @@
 package com.flattery;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static org.junit.Assert.assertEquals;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -14,6 +16,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.reactive.server.WebTestClientConfigurer;
+import org.springframework.ui.Model;
+import org.springframework.validation.support.BindingAwareModelMap;
 
 import static org.junit.Assert.*;
 
@@ -24,14 +28,18 @@ import static org.junit.Assert.*;
 
 public class GreetingControllerTest {
 
-    @Autowired(required = true)
-    private WebTestClient webClient;
+    private GreetingController object;
+    private BindingAwareModelMap model;
 
+    @Before
+    public void setUp() throws Exception {
+        this.object = new GreetingController();
+        this.model = new BindingAwareModelMap();
+
+    }
 
     @Test
     public void exampleTest() throws Exception {
-
-        this.webClient.get().uri("/").exchange().expectStatus().isOk()
-                .expectBody(String.class).isEqualTo("Hello World");
+        assertEquals("greeting", this.object.greeting("name", this.model));
     }
 }
