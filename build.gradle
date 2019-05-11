@@ -67,3 +67,8 @@ jacocoTestReport {
         html.enabled = true
     }
 }
+
+buildScan {
+    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+    termsOfServiceAgree = 'yes'
+}
