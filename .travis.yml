@@ -6,7 +6,7 @@ jdk:
 #  only:
 #    - master
 
-# Travis CI 서버의 Cache 활성화
+# Travis CI enable caching
 cache:
   directories:
     - '$HOME/.m2/repository'
