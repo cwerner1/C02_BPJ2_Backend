@@ -1,16 +1,24 @@
 language: java
 jdk:
-  - openjdk8
+  - oraclejdk8
+  - oraclejdk11
+  - openjdk10
+  - openjdk11
 
 #branches:
 #  only:
 #    - master
 
 # Travis CI enable caching
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
 cache:
   directories:
-    - '$HOME/.m2/repository'
-    - '$HOME/.gradle'
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+  timeout: 1000
 
 # clean Build
 script: "./gradlew clean build --scan -s"
