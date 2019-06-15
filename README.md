@@ -1,5 +1,4 @@
-# C02_BPJ2
-BPJ2
+# C02_BPJ2 Backend
 
 
 ## Current Build Status
