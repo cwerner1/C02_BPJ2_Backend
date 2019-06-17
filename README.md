@@ -8,3 +8,9 @@
 
 ##  MYSQL connector tutorial
 https://spring.io/guides/gs/accessing-data-mysql/
+
+
+### Mysql On MacOX start:
+```cd /usr/local/mysql/support-files
+sudo ./mysql.server start
+```
