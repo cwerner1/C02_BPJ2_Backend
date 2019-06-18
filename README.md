@@ -5,12 +5,28 @@
 [![Build Status](https://travis-ci.com/cwerner1/C02_BPJ2_Backend.svg?token=hXztLjB3o9gWgo5eS6xV&branch=master)](https://travis-ci.com/cwerner1/C02_BPJ2_Backend)
 [![Coverage Status](https://coveralls.io/repos/github/cwerner1/C02_BPJ2_Backend/badge.svg)](https://coveralls.io/github/cwerner1/C02_BPJ2_Backend)
 
+## Mysql
 
-##  MYSQL connector tutorial
+###  MYSQL connector tutorial
 https://spring.io/guides/gs/accessing-data-mysql/
 
 
-### Mysql On MacOX start:
+#### Mysql On MacOX start:
 ```cd /usr/local/mysql/support-files
 sudo ./mysql.server start
 ```
+
+
+### Database Settings
+
+src/main/resources/application.properties
+DatabaseConnection String 
+
+### Demo - adding and recieving Data
+```com.flattery.WohnungController ```
+
+#### add Entry
+```/demo/add?name=name&email=email```
+
+#### Show all entrys 
+```/demo/all```
