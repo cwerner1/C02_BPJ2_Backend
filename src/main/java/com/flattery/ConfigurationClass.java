@@ -8,7 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 @Configuration
-@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
+
 public class ConfigurationClass {
 
     public static final String SPRING_PROFILES_ACTIVE = "spring.profiles.active";

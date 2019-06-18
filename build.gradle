@@ -40,6 +40,11 @@ dependencies {
 
     // JPA Data (We are going to use Repositories, Entities, Hibernate, etc...)
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('com.google.guava:guava:28.0-jre')
+    compile('org.hibernate:hibernate-ehcache')
+    compile('org.hibernate:hibernate-envers')
+    compile('org.hibernate:hibernate-core')
+
 
     // Use MySQL Connector-J
     compile('mysql:mysql-connector-java')
@@ -82,4 +87,13 @@ if (hasProperty('buildScan')) {
         termsOfServiceUrl = 'https://gradle.com/terms-of-service'
         termsOfServiceAgree = 'yes'
     }
+}
+
+task copyDeps(type: Copy) {
+    from(configurations.compile + configurations.testCompile) {
+        include ".jar"
+        include ".so", "*.dll"
+    }
+    into rootProject.rootDir.getAbsolutePath() + "/lib"
+//rename can be applied on the files if you want to remove the version from the jar for instance
 }
