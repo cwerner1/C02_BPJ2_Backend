@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import java.time.LocalDateTime;
 
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -14,9 +14,15 @@ public class Wohnung {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String name;
-
-    private String email;
+    private boolean availability;
+    private LocalDateTime addedAt;
+    private Integer User_id;
+    private String description;
+    private double surfaceArea;
+    private Integer roomCount;
+    private String address;
+    private String postalCode;
+    private String country;
 
     public Integer getId() {
         return id;
@@ -26,21 +32,75 @@ public class Wohnung {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public boolean isAvailability() {
+        return availability;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAvailability(boolean availability) {
+        this.availability = availability;
     }
 
-    public String getEmail() {
-        return email;
+    public LocalDateTime getAddedAt() {
+        return addedAt;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setAddedAt(LocalDateTime addedAt) {
+        this.addedAt = addedAt;
     }
 
+    public Integer getUser_id() {
+        return User_id;
+    }
 
+    public void setUser_id(Integer user_id) {
+        User_id = user_id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getSurfaceArea() {
+        return surfaceArea;
+    }
+
+    public void setSurfaceArea(double surfaceArea) {
+        this.surfaceArea = surfaceArea;
+    }
+
+    public Integer getRoomCount() {
+        return roomCount;
+    }
+
+    public void setRoomCount(Integer roomCount) {
+        this.roomCount = roomCount;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 }
