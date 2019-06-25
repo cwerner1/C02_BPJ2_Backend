@@ -21,10 +21,7 @@ public class UserController {
     // TODO: Load from a configuration file.
     private static final int BCRYPT_DEFAULT_COST = 12;
 
-    public UserController(UserRepository userRepository)
-    {
-        this.userRepository = userRepository;
-    }
+    public UserController(UserRepository userRepository) { this.userRepository = userRepository; }
 
     /**
      * Registers a new user with a name and password.
@@ -35,15 +32,14 @@ public class UserController {
      */
     @GetMapping(path = "/register") // Map ONLY GET Requests
     public @ResponseBody
-    String registerUser(@RequestParam String name, @RequestParam String password)
-    {
-        User user = userRepository.findAllByName(name);
-        if (user != null) {
+    String registerUser(@RequestParam String name, @RequestParam String password) {
+
+        if (userRepository.findAllByName(name) != null) {
             return "Exists";
         }
 
-        user = new User();
-        user.setUser(name);
+        User user = new User();
+        user.setName(name);
         user.setPassword(_hashPassword(password));
         userRepository.save(user);
 
@@ -69,7 +65,7 @@ public class UserController {
      * @param candidatePassword
      * @return
      */
-    public boolean verifyPassword(String candidatePassword, hashedPassword)
+    public boolean verifyPassword(String candidatePassword, String hashedPassword)
     {
         return BCrypt.checkpw(candidatePassword, hashedPassword);
     }

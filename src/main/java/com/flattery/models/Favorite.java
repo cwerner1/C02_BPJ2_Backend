@@ -15,6 +15,15 @@ public class Favorite {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     private Integer Wohnung_id;
     private Integer User_id;
 
