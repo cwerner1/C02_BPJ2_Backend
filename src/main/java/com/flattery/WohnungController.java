@@ -1,5 +1,6 @@
 package com.flattery;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.flattery.mapper.WohnungMapper;
 import com.flattery.models.Wohnung;
@@ -81,10 +82,21 @@ public class WohnungController extends BaseController{
 
     @GetMapping(path = "/get/{str_id}")
     public @ResponseBody
-    Optional<Wohnung> getWohnung(@PathVariable String str_id) {
+    String getWohnung(@PathVariable String str_id) {
 
         Integer id = Integer.parseInt(str_id);
 
-        return wohnungRepository.findById(id);
+        Optional<Wohnung> wohnungOptional = wohnungRepository.findById(id);
+        if (!wohnungOptional.isPresent()) {
+            return "\"status\": \"Diese Wohnung existiert nicht.\"";
+        }
+        Wohnung wohnung = wohnungOptional.get();
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(wohnung);
+        } catch (IOException exc) {
+            return "\"error\": \"Request failed.\"";
+        }
     }
 }
