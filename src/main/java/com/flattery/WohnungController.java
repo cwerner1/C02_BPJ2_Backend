@@ -31,6 +31,7 @@ public class WohnungController extends BaseController{
     String addNewWohnungDemo() {
         Wohnung n = new Wohnung();
         n.setAddress("Tannenstrasse 12");
+        n.setCity("Obiberg");
         n.setCountry("Steiermark");
         n.setRent(500);
         n.setSurfaceArea(42);
