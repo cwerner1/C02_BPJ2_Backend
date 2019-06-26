@@ -37,7 +37,6 @@ public class WohnungController extends BaseController{
         n.setSurfaceArea(42);
         n.setAddedAt(LocalDateTime.now());
         n.setRoomCount(1);
-        n.setAvailability(true);
         n.setDescription("Eine schöne Altbauwohnung mit Loggia");
         n.setPostalCode("8888");
         n.setUser_id(1);

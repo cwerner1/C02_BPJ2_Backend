@@ -14,7 +14,6 @@ public class Wohnung {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private boolean availability;
     private LocalDateTime addedAt;
     private Integer User_id;
     private String description;
@@ -44,14 +43,6 @@ public class Wohnung {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public boolean isAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(boolean availability) {
-        this.availability = availability;
     }
 
     public LocalDateTime getAddedAt() {
