@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Controller    // This means that this class is a Controller
@@ -33,6 +34,12 @@ public class WohnungController extends BaseController{
         n.setCountry("Steiermark");
         n.setRent(500);
         n.setSurfaceArea(42);
+        n.setAddedAt(LocalDateTime.now());
+        n.setRoomCount(1);
+        n.setAvailability(true);
+        n.setDescription("Eine schöne Altbauwohnung mit Loggia");
+        n.setPostalCode("8888");
+        n.setUser_id(1);
         wohnungRepository.save(n);
         return "Saved";
     }
