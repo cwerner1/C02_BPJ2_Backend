@@ -75,9 +75,17 @@ public class WohnungController extends BaseController{
 
     @GetMapping(path = "/all")
     public @ResponseBody
-    Iterable<Wohnung> getAllWohnung() {
-        // This returns a JSON or XML with the users
-        return wohnungRepository.findAll();
+    String getAllWohnung() {
+
+        Iterable<Wohnung> wohnungs = wohnungRepository.findAll();
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(wohnungs);
+
+        } catch (IOException exc) {
+            return "\"status\": \"failed\"";
+        }
     }
 
     @GetMapping(path = "/get/{str_id}")
@@ -95,8 +103,9 @@ public class WohnungController extends BaseController{
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.writeValueAsString(wohnung);
+
         } catch (IOException exc) {
-            return "\"error\": \"Request failed.\"";
+            return "\"status\": \"failed\"";
         }
     }
 }
