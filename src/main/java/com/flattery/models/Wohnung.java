@@ -24,6 +24,15 @@ public class Wohnung {
     private String postalCode;
     private String country;
     private Integer rent;
+    private String city;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public Integer getRent() { return rent; }
 
