@@ -33,14 +33,14 @@ public class UserController extends BaseController {
      */
     @GetMapping(path = "/register") // Map ONLY GET Requests
     public @ResponseBody
-    String registerUser(@RequestParam String name, @RequestParam String password) {
+    String registerUser(@RequestParam String email, @RequestParam String password) {
 
-        if (userRepository.findAllByName(name) != null) {
+        if (userRepository.findAllByEmail(email) != null) {
             return "Exists";
         }
 
         User user = new User();
-        user.setEmail(name);
+        user.setEmail(email);
         user.setPassword(_hashPassword(password));
         userRepository.save(user);
 

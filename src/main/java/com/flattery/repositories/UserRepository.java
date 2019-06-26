@@ -11,5 +11,5 @@ import java.util.stream.Stream;
 // CRUD refers Create, Read, Update, Delete
 public interface UserRepository extends CrudRepository<User, Integer> {
 
-    Stream<User> findAllByName(String name);
+    Stream<User> findAllByEmail(String email);
 }
