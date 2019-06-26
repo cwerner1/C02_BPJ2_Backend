@@ -1,11 +1,14 @@
 package com.flattery;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.flattery.mapper.WohnungMapper;
 import com.flattery.models.Wohnung;
 import com.flattery.repositories.WohnungRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller    // This means that this class is a Controller
@@ -22,16 +25,17 @@ public class WohnungController extends BaseController{
 
     @GetMapping(path = "/add") // Map ONLY GET Requests
     public @ResponseBody
-    String addNewUser(@RequestParam String name
-            , @RequestParam String email) {
+    String addNewWohnung(@RequestParam String payload) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
-        Wohnung n = new Wohnung();
-        n.setAddress(name);
-        n.setCountry(email);
-        wohnungRepository.save(n);
-        return "Saved";
+        try {
+            Wohnung n = WohnungMapper.readJsonWithObjectMapper(payload);
+            wohnungRepository.save(n);
+            return "Saved";
+        } catch (IOException exc) {
+            return exc.getMessage();
+        }
     }
 
     @GetMapping(path = "/all")
