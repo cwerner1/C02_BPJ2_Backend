@@ -24,6 +24,19 @@ public class WohnungController extends BaseController{
         this.wohnungRepository = wohnungRepository2;
     }
 
+    // TODO: Remove me later.
+    @GetMapping(path = "/demoadd") // Map ONLY GET Requests
+    public @ResponseBody
+    String addNewWohnungDemo() {
+        Wohnung n = new Wohnung();
+        n.setAddress("Tannenstrasse 12");
+        n.setCountry("Steiermark");
+        n.setRent(500);
+        n.setSurfaceArea(42);
+        wohnungRepository.save(n);
+        return "Saved";
+    }
+
     @GetMapping(path = "/add") // Map ONLY GET Requests
     public @ResponseBody
     String addNewWohnung(@RequestParam String payload) {
