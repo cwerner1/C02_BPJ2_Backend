@@ -60,6 +60,20 @@ public class WohnungController extends BaseController{
         }
     }
 
+    @GetMapping(path = "/remove/{str_id}")
+    public @ResponseBody
+    String removeWohnung(@PathVariable String str_id) {
+
+        try {
+            wohnungRepository.deleteById((Integer.parseInt(str_id)));
+
+        } catch (Exception exc) {
+            return "Failed";
+        }
+
+        return "Deleted";
+    }
+
     @GetMapping(path = "/all")
     public @ResponseBody
     Iterable<Wohnung> getAllUsers() {
@@ -68,7 +82,6 @@ public class WohnungController extends BaseController{
     }
 
     @GetMapping(path = "/get/{str_id}")
-
     public @ResponseBody
     Optional<Wohnung> addNewUser(@PathVariable String str_id) {
 
