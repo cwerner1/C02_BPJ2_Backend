@@ -4,10 +4,7 @@ import com.flattery.models.Wohnung;
 import com.flattery.repositories.WohnungRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -45,14 +42,13 @@ public class WohnungController extends BaseController{
     }
 
     @GetMapping(path = "/get/{str_id}")
+
     public @ResponseBody
-    String addNewUser(@RequestParam String str_id) {
+    Optional<Wohnung> addNewUser(@PathVariable String str_id) {
 
         Integer id = Integer.parseInt(str_id);
-        Optional<Wohnung> wohnung = wohnungRepository.findById(id);
 
-        this.setData(wohnung);
-        return this.getResponse();
+        return wohnungRepository.findById(id);
 
     }
 }
