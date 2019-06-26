@@ -11,6 +11,6 @@ import java.util.stream.Stream;
 // CRUD refers Create, Read, Update, Delete
 public interface FavoriteRepository extends CrudRepository<Favorite, Integer> {
 
-    Stream<Favorite> findAllByUser_id(Integer User_id);
-    Stream<Favorite> findAllByWohnung_id(Integer Wohnung_id);
+    //Stream<Favorite> findAllByUser_id(Integer User_id);
+    //Stream<Favorite> findAllByWohnung_id(Integer Wohnung_id);
 }
