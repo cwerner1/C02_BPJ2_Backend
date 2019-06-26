@@ -42,10 +42,10 @@ public class WohnungController extends BaseController{
         n.setPostalCode("8888");
         n.setUser_id(1);
         wohnungRepository.save(n);
-        return "Saved";
+        return "{\"wohnung_id\": " + Integer.toString(n.getId()) + "}";
     }
 
-    @PostMapping(path = "/add") // Map ONLY GET Requests
+    @PostMapping(path = "/add")
     public @ResponseBody
     String addNewWohnung(@RequestBody String payload) {
         // @ResponseBody means the returned String is the response, not a view name
@@ -54,40 +54,38 @@ public class WohnungController extends BaseController{
         try {
             Wohnung n = WohnungMapper.readJsonWithObjectMapper(payload);
             wohnungRepository.save(n);
-            return "Saved";
+            return "{\"wohnung_id\": " + Integer.toString(n.getId()) + "}";
         } catch (IOException exc) {
             return exc.getMessage();
         }
     }
 
-    @GetMapping(path = "/remove/{str_id}")
+    @PostMapping(path = "/remove")
     public @ResponseBody
     String removeWohnung(@PathVariable String str_id) {
-
         try {
             wohnungRepository.deleteById((Integer.parseInt(str_id)));
 
         } catch (Exception exc) {
-            return "Failed";
+            return "\"status\": \"failed\"";
         }
 
-        return "Deleted";
+        return "\"status\": \"success\"";
     }
 
     @GetMapping(path = "/all")
     public @ResponseBody
-    Iterable<Wohnung> getAllUsers() {
+    Iterable<Wohnung> getAllWohnung() {
         // This returns a JSON or XML with the users
         return wohnungRepository.findAll();
     }
 
     @GetMapping(path = "/get/{str_id}")
     public @ResponseBody
-    Optional<Wohnung> addNewUser(@PathVariable String str_id) {
+    Optional<Wohnung> getWohnung(@PathVariable String str_id) {
 
         Integer id = Integer.parseInt(str_id);
 
         return wohnungRepository.findById(id);
-
     }
 }
