@@ -38,7 +38,7 @@ FLUSH privileges;
 ```com.flattery.WohnungController ```
 
 #### add Entry
-```/demo/add?name=name&email=email```
+```/demo/add?email=email&email=email```
 
 #### Show all entrys 
 ```/demo/all```

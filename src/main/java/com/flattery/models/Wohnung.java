@@ -23,6 +23,11 @@ public class Wohnung {
     private String address;
     private String postalCode;
     private String country;
+    private Integer rent;
+
+    public Integer getRent() { return rent; }
+
+    public void setRent(Integer rent) { this.rent = rent; }
 
     public Integer getId() {
         return id;

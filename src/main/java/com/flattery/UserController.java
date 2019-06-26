@@ -40,7 +40,7 @@ public class UserController extends BaseController {
         }
 
         User user = new User();
-        user.setName(name);
+        user.setEmail(name);
         user.setPassword(_hashPassword(password));
         userRepository.save(user);
 
