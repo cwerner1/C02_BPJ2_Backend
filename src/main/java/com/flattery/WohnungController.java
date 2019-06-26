@@ -44,11 +44,11 @@ public class WohnungController extends BaseController{
         return wohnungRepository.findAll();
     }
 
-    @GetMapping(path = "/get/{id}")
+    @GetMapping(path = "/get/{str_id}")
     public @ResponseBody
-    String addNewUser(@RequestParam Integer id) {
+    String addNewUser(@RequestParam String str_id) {
 
-
+        Integer id = Integer.parseInt(str_id);
         Optional<Wohnung> wohnung = wohnungRepository.findById(id);
 
         this.setData(wohnung);

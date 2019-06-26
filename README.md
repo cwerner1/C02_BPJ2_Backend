@@ -22,6 +22,18 @@ sudo ./mysql.server start
 src/main/resources/application.properties
 DatabaseConnection String 
 
+#### Mysql Setup for DAtabse
+```
+use sys;
+CREATE DATABASE flattery;
+CREATE USER 'flattery'@'%' identified by 'Flattery1!';
+use flattery;
+GRANT ALL privileges on flattery.* TO 'flattery'@'%' with grant option ; 
+FLUSH privileges;
+
+
+```
+
 ### Demo - adding and recieving Data
 ```com.flattery.WohnungController ```
 
