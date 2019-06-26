@@ -6,12 +6,17 @@ import com.flattery.mapper.WohnungMapper;
 import com.flattery.models.Wohnung;
 import com.flattery.repositories.WohnungRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Controller    // This means that this class is a Controller
 @RequestMapping(path = "/wohnung") // This means URL's start with /demo (after Application path)
@@ -67,10 +72,10 @@ public class WohnungController extends BaseController{
             wohnungRepository.deleteById((Integer.parseInt(str_id)));
 
         } catch (Exception exc) {
-            return "\"status\": \"failed\"";
+            return "{\"status\": \"failed\"}";
         }
 
-        return "\"status\": \"success\"";
+        return "{\"status\": \"success\"}";
     }
 
     @GetMapping(path = "/all")
@@ -84,7 +89,7 @@ public class WohnungController extends BaseController{
             return objectMapper.writeValueAsString(wohnungs);
 
         } catch (IOException exc) {
-            return "\"status\": \"failed\"";
+            return "{\"status\": \"failed\"}";
         }
     }
 
@@ -96,7 +101,7 @@ public class WohnungController extends BaseController{
 
         Optional<Wohnung> wohnungOptional = wohnungRepository.findById(id);
         if (!wohnungOptional.isPresent()) {
-            return "\"status\": \"Diese Wohnung existiert nicht.\"";
+            return "{\"status\": \"Diese Wohnung existiert nicht.\"}";
         }
         Wohnung wohnung = wohnungOptional.get();
 
@@ -105,7 +110,36 @@ public class WohnungController extends BaseController{
             return objectMapper.writeValueAsString(wohnung);
 
         } catch (IOException exc) {
-            return "\"status\": \"failed\"";
+            return "{\"status\": \"failed\"}";
         }
+    }
+
+    @GetMapping(path = "/average")
+    public @ResponseBody
+    String getAverage(@RequestParam String city) {
+
+        List<Wohnung> wohnungs = wohnungRepository.findAllByCity(city);
+
+        if (wohnungs.isEmpty()) {
+            return "{\"average\": 0, \"averageSqM\": 0}";
+        }
+
+        double totalRent = 0.0;
+        double totalRentSqM = 0.0;
+        int count = 0;
+        for (Wohnung w : wohnungs) {
+            double surfaceArea = w.getSurfaceArea();
+            double rent = w.getRent();
+
+            totalRent += rent;
+            totalRentSqM += rent/surfaceArea;
+
+            count++;
+        }
+
+        double avgRent = totalRent / count;
+        double avgRentSqM = totalRentSqM / count;
+
+        return "{\"avgRent\": " + Double.toString(avgRent) + ", \"avgRentSqM\": " + Double.toString(avgRentSqM) + "}";
     }
 }
