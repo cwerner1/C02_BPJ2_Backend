@@ -15,7 +15,7 @@ public class Wohnung {
     private Integer id;
 
     private LocalDateTime addedAt;
-    private Integer User_id;
+    private Integer userId;
     private String description;
     private double surfaceArea;
     private Integer roomCount;
@@ -33,9 +33,13 @@ public class Wohnung {
         this.city = city;
     }
 
-    public Integer getRent() { return rent; }
+    public Integer getRent() {
+        return rent;
+    }
 
-    public void setRent(Integer rent) { this.rent = rent; }
+    public void setRent(Integer rent) {
+        this.rent = rent;
+    }
 
     public Integer getId() {
         return id;
@@ -53,12 +57,12 @@ public class Wohnung {
         this.addedAt = addedAt;
     }
 
-    public Integer getUser_id() {
-        return User_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        User_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getDescription() {

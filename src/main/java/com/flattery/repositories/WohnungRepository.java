@@ -14,5 +14,6 @@ public interface WohnungRepository extends CrudRepository<Wohnung, Integer> {
 
     Stream<Wohnung> findAllByDescription(String description);
     List<Wohnung> findAllByCity(String city);
+    List<Wohnung> findAllByUserId(Integer id);
 
 }
