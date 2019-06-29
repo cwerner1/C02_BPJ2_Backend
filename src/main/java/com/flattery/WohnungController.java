@@ -1,5 +1,6 @@
 package com.flattery;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flattery.mapper.WohnungMapper;
 import com.flattery.models.Wohnung;
@@ -10,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller    // This means that this class is a Controller
 @RequestMapping(path = "/wohnung") // This means URL's start with /demo (after Application path)
@@ -42,7 +42,12 @@ public class WohnungController extends BaseController {
         n.setPostalCode("8888");
         n.setUserId(1);
         wohnungRepository.save(n);
-        return "{\"wohnung_id\": " + Integer.toString(n.getId()) + "}";
+
+        Map<String, Integer> data = new HashMap<>();
+        data.put("wohnung_id", n.getId());
+        setData(data);
+
+        return getResponse();
     }
 
     @PostMapping(path = "/add")
@@ -54,35 +59,49 @@ public class WohnungController extends BaseController {
         try {
             Wohnung n = WohnungMapper.readJsonWithObjectMapper(payload);
             wohnungRepository.save(n);
-            return "{\"wohnung_id\": " + Integer.toString(n.getId()) + "}";
+
+            Map<String, Integer> data = new HashMap<>();
+            data.put("wohnung_id", n.getId());
+            setData(data);
+
+            return getResponse();
+
         } catch (IOException exc) {
-            return exc.getMessage();
+            return getError();
         }
     }
 
     @PostMapping(path = "/update")
     public @ResponseBody
     String updateWohnung(@RequestBody String payload) {
+
         try {
             Wohnung n = WohnungMapper.readJsonWithObjectMapper(payload);
             wohnungRepository.save(n);
-            return "{\"wohnung_id\": " + Integer.toString(n.getId()) + "}";
+
+            Map<String, Integer> data = new HashMap<>();
+            data.put("wohnung_id", n.getId());
+            setData(data);
+
+            return getResponse();
+
         } catch (IOException exc) {
-            return exc.getMessage();
+            return getError();
         }
     }
 
     @PostMapping(path = "/remove")
     public @ResponseBody
     String removeWohnung(@PathVariable String str_id) {
+
         try {
             wohnungRepository.deleteById((Integer.parseInt(str_id)));
 
         } catch (Exception exc) {
-            return "{\"status\": \"failed\"}";
+            return getError("Die Wohnung konnte nicht gelöscht werden.");
         }
 
-        return "{\"status\": \"success\"}";
+        return getResponse();
     }
 
     @GetMapping(path = "/all")
@@ -90,14 +109,9 @@ public class WohnungController extends BaseController {
     String getAllWohnung() {
 
         Iterable<Wohnung> wohnungs = wohnungRepository.findAll();
+        setData(wohnungs);
 
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(wohnungs);
-
-        } catch (IOException exc) {
-            return "{\"status\": \"failed\"}";
-        }
+        return getResponse();
     }
 
     @GetMapping(path = "/get/{str_id}")
@@ -108,27 +122,34 @@ public class WohnungController extends BaseController {
 
         Optional<Wohnung> wohnungOptional = wohnungRepository.findById(id);
         if (!wohnungOptional.isPresent()) {
-            return "{\"status\": \"Diese Wohnung existiert nicht.\"}";
+
+            return getError("Diese Wohnung existiert nicht.");
         }
         Wohnung wohnung = wohnungOptional.get();
+        setData(wohnung);
 
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(wohnung);
-
-        } catch (IOException exc) {
-            return "{\"status\": \"failed\"}";
-        }
+        return getResponse();
     }
 
-    @GetMapping(path = "/average")
+    @PostMapping(path = "/average")
     public @ResponseBody
     String getAverage(@RequestParam String city) {
 
-        List<Wohnung> wohnungs = wohnungRepository.findAllByCity(city);
+        Map<String, Double> data = new HashMap<>();
+        data.put("average", 0.0);
+        data.put("averageSqM", 0.0);
+
+        List<Wohnung> wohnungs = new ArrayList<>();
+        if (city != "") {
+            wohnungs = wohnungRepository.findAllByCity(city);
+        } else {
+            Iterable<Wohnung> iterable = wohnungRepository.findAll();
+            iterable.forEach(wohnungs::add);
+        }
 
         if (wohnungs.isEmpty()) {
-            return "{\"average\": 0, \"averageSqM\": 0}";
+            setData(data);
+            return getResponse();
         }
 
         double totalRent = 0.0;
@@ -147,7 +168,11 @@ public class WohnungController extends BaseController {
         double avgRent = totalRent / count;
         double avgRentSqM = totalRentSqM / count;
 
-        return "{\"avgRent\": " + Double.toString(avgRent) + ", \"avgRentSqM\": " + Double.toString(avgRentSqM) + "}";
+        data.put("average", avgRent);
+        data.put("averageSqM", avgRentSqM);
+        setData(data);
+
+        return getResponse();
     }
 
     @GetMapping(path = "/getByUserID/{str_id}")
@@ -157,12 +182,8 @@ public class WohnungController extends BaseController {
         Integer id = Integer.parseInt(str_id);
         Iterable<Wohnung> wohnungs = wohnungRepository.findAllByUserId(id);
 
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(wohnungs);
+        setData(wohnungs);
 
-        } catch (IOException exc) {
-            return "{\"status\": \"failed\"}";
-        }
+        return getResponse();
     }
 }
