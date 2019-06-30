@@ -75,6 +75,11 @@ public class WohnungController extends BaseController {
     String updateWohnung(@RequestBody String payload) {
 
         try {
+            JsonNode a = _JSONParse(payload);
+            if (!a.has("id") || a.get("id").asText().equals("null")) {
+                return getError("Received no id.");
+            }
+
             Wohnung n = WohnungMapper.readJsonWithObjectMapper(payload);
             System.out.println(payload);
             System.out.println(n);
