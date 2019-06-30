@@ -133,7 +133,15 @@ public class WohnungController extends BaseController {
 
     @PostMapping(path = "/average")
     public @ResponseBody
-    String getAverage(@RequestParam String city) {
+    String getAverage(@RequestBody String payload) {
+
+        String city = null;
+        try {
+            city = _JSONParse(payload).get("city").asText();
+
+        } catch (IOException e) {
+            return getError();
+        }
 
         Map<String, Double> data = new HashMap<>();
         data.put("average", 0.0);
@@ -165,11 +173,8 @@ public class WohnungController extends BaseController {
             count++;
         }
 
-        double avgRent = totalRent / count;
-        double avgRentSqM = totalRentSqM / count;
-
-        data.put("average", avgRent);
-        data.put("averageSqM", avgRentSqM);
+        data.put("average", totalRent / count);
+        data.put("averageSqM", totalRentSqM / count);
         setData(data);
 
         return getResponse();
