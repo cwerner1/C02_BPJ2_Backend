@@ -80,13 +80,49 @@ public class WohnungController extends BaseController {
                 return getError("Received no id.");
             }
 
-            Wohnung n = WohnungMapper.readJsonWithObjectMapper(payload);
-            System.out.println(payload);
-            System.out.println(n);
-            wohnungRepository.save(n);
+            int wohnungID = a.get("id").asInt();
+            Optional<Wohnung> wohnungOptional = wohnungRepository.findById(wohnungID);
+            if (!wohnungOptional.isPresent()) {
+                return getError("Diese Wohnung existiert nicht.");
+            }
+            Wohnung wohnung = wohnungOptional.get();
+
+            if (_isReceived(a,"description")) {
+                wohnung.setDescription(a.get("description").asText());
+            }
+
+            if (_isReceived(a,"surfaceArea")) {
+                wohnung.setSurfaceArea(a.get("surfaceArea").asDouble());
+            }
+
+            if (_isReceived(a,"roomCount")) {
+                wohnung.setRoomCount(a.get("roomCount").asInt());
+            }
+
+            if (_isReceived(a,"address")) {
+                wohnung.setAddress(a.get("address").asText());
+            }
+
+            if (_isReceived(a,"postalCode")) {
+                wohnung.setPostalCode(a.get("postalCode").asText());
+            }
+
+            if (_isReceived(a,"country")) {
+                wohnung.setCountry(a.get("country").asText());
+            }
+
+            if (_isReceived(a,"rent")) {
+                wohnung.setRent(a.get("rent").asInt());
+            }
+
+            if (_isReceived(a,"city")) {
+                wohnung.setCity(a.get("city").asText());
+            }
+
+            wohnungRepository.save(wohnung);
 
             Map<String, Integer> data = new HashMap<>();
-            data.put("wohnungID", n.getId());
+            data.put("wohnungID", wohnungID);
             setData(data);
 
             return getResponse();
@@ -209,5 +245,12 @@ public class WohnungController extends BaseController {
         setData(wohnungs);
 
         return getResponse();
+    }
+
+    private static boolean _isReceived(JsonNode jsonNode, String fieldName) {
+        return jsonNode.has(fieldName)
+                && !jsonNode.get(fieldName).asText().equals("null")
+                && !jsonNode.get(fieldName).asText().equals("undefined")
+                && !jsonNode.get(fieldName).asText().equals("");
     }
 }
