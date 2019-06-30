@@ -93,10 +93,17 @@ public class WohnungController extends BaseController {
 
     @PostMapping(path = "/remove")
     public @ResponseBody
-    String removeWohnung(@PathVariable String str_id) {
+    String removeWohnung(@RequestBody String payload) {
 
         try {
-            wohnungRepository.deleteById((Integer.parseInt(str_id)));
+            JsonNode a = _JSONParse(payload);
+
+            if (a.get("wohnungID").asText().equals("null")) {
+                return getError("Received no wohnungID.");
+            }
+
+            int wohnungID = Integer.parseInt(a.get("wohnungID").asText());
+            wohnungRepository.deleteById(wohnungID);
 
         } catch (Exception exc) {
             return getError("Die Wohnung konnte nicht gelöscht werden.");
@@ -139,7 +146,7 @@ public class WohnungController extends BaseController {
         String city = null;
         try {
             JsonNode a = _JSONParse(payload);
-            city = _JSONParse(payload).get("city").asText();
+            city = a.get("city").asText();
 
             if (city.equals("null") || city.equals("undefined") || city.equals("")) {
                 city = null;
