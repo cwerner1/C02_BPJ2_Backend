@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @CrossOrigin(origins = "http://localhost:8100")
 
-public class GreetingController extends BaseController{
+public class Z_GreetingController extends BaseController{
 
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {

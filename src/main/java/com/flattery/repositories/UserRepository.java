@@ -4,6 +4,7 @@ import com.flattery.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 
@@ -11,5 +12,5 @@ import java.util.stream.Stream;
 // CRUD refers Create, Read, Update, Delete
 public interface UserRepository extends CrudRepository<User, Integer> {
 
-    Stream<User> findAllByEmail(String email);
+    Optional<User> findAllByEmail(String email);
 }

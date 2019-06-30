@@ -14,12 +14,12 @@ import static org.junit.Assert.assertEquals;
 public class HelloApplicationTests {
 
 
-    private HelloController object;
+    private Z_HelloController object;
     private BindingAwareModelMap model;
 
     @Before
     public void setUp() throws Exception {
-        this.object = new HelloController();
+        this.object = new Z_HelloController();
         this.model = new BindingAwareModelMap();
 
     }

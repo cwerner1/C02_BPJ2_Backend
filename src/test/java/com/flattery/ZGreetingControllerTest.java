@@ -2,38 +2,28 @@ package com.flattery;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.test.web.reactive.server.WebTestClientConfigurer;
-import org.springframework.ui.Model;
 import org.springframework.validation.support.BindingAwareModelMap;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
 
 
-public class GreetingControllerTest {
+public class ZGreetingControllerTest {
 
-    private GreetingController object;
+    private Z_GreetingController object;
     private BindingAwareModelMap model;
 
     @Before
     public void setUp() throws Exception {
-        this.object = new GreetingController();
+        this.object = new Z_GreetingController();
         this.model = new BindingAwareModelMap();
 
     }

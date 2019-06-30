@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8100")
-public class HelloController extends BaseController{
+public class Z_HelloController extends BaseController{
 
     @RequestMapping("/hello")
     public String index() {

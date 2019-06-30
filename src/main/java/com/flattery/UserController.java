@@ -1,5 +1,7 @@
 package com.flattery;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flattery.models.User;
 import com.flattery.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Controller    // This means that this class is a Controller
 @RequestMapping(path = "/user") // This means URL's start with /demo (after Application path)
@@ -19,29 +25,32 @@ public class UserController extends BaseController {
     // TODO: Load from a configuration file.
     private static final int BCRYPT_DEFAULT_COST = 12;
 
-    public UserController(UserRepository userRepository) { this.userRepository = userRepository; }
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /**
      * Registers a new user with a name and password.
      *
-     * @param name User name (e-mail).
-     * @param password User password (plaintext).
      * @return Status
      */
-    @GetMapping(path = "/register") // Map ONLY GET Requests
+    @PostMapping(path = "/register")
     public @ResponseBody
-    String registerUser(@RequestParam String email, @RequestParam String password) {
-
-        if (userRepository.findAllByEmail(email) != null) {
-            return "Exists";
+    String registerUser(@RequestBody String payload) throws IOException {
+        JsonNode a = this._JSONParse(payload);
+        String email = a.get("email").asText();
+        String password = a.get("password").asText();
+        if (userRepository.findAllByEmail(email).isPresent()) {
+            return getError("User Exists");
         }
-
         User user = new User();
         user.setEmail(email);
         user.setPassword(_hashPassword(password));
         userRepository.save(user);
-
-        return "Registered";
+        return "{ \"success\": true, \"data\":{\"id\": " + user.getId() + ",\"access_token\":" + String.valueOf(user.getId()) + "," +
+                "\"expires_in\": 3600" +
+                "}}";
+        // @TODO  return getResponse();
     }
 
 
@@ -51,8 +60,7 @@ public class UserController extends BaseController {
      * @param plainTextPassword User supplied password in plaintext.
      * @return Hashed and salted password.
      */
-    private String _hashPassword(String plainTextPassword)
-    {
+    private String _hashPassword(String plainTextPassword) {
         return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt(BCRYPT_DEFAULT_COST));
     }
 
@@ -65,8 +73,57 @@ public class UserController extends BaseController {
      * @return true if the Password matches
      */
 
-    public boolean verifyPassword(String candidatePassword, String hashedPassword)
-    {
+    public boolean verifyPassword(String candidatePassword, String hashedPassword) {
         return BCrypt.checkpw(candidatePassword, hashedPassword);
+    }
+
+    @PostMapping(path = "/login") // Map ONLY GET Requests
+    public @ResponseBody
+    String loginUser(@RequestBody String payload) throws IOException {
+        System.out.println(payload);
+        JsonNode a = this._JSONParse(payload);
+        String email = a.get("email").asText();
+        String password = a.get("password").asText();
+        Optional<User> possibleUsers = userRepository.findAllByEmail(email);
+
+        if (!possibleUsers.isPresent()) {
+            System.out.println("nouser");
+            return getError("User Exisitiert nicht");
+
+        }
+        User possibleUser = possibleUsers.get();
+        System.out.println(possibleUser);
+        if (this.verifyPassword(password, possibleUser.getPassword())) {
+            System.out.println("hasUser");
+
+            return "{ \"success\": true, \"data\":{\"id\": " + possibleUser.getId() + ",\"access_token\":" + String.valueOf(possibleUser.getId()) + "," +
+                    "\"expires_in\": 3600" +
+                    "}}";
+            // @TODO  return getResponse();
+        }
+        System.out.println("error");
+        return getError();
+    }
+
+    @GetMapping(path = "/getByUserID/{str_id}")
+    public @ResponseBody
+    String getUserDetail(@PathVariable String str_id) {
+
+        Integer id = Integer.parseInt(str_id);
+
+        Optional<User> wohnungOptional = userRepository.findById(id);
+        if (!wohnungOptional.isPresent()) {
+
+            return getError("Dieser User existiert nicht.");
+        }
+        User user = wohnungOptional.get();
+        setData(user);
+
+        return getResponse();
+    }
+
+    protected JsonNode _JSONParse(String json) throws IOException {
+        ObjectMapper objectgmapper = new ObjectMapper();
+        return objectgmapper.readTree(json);
     }
 }
