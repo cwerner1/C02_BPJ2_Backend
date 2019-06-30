@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -46,10 +48,14 @@ public class UserController extends BaseController {
         user.setEmail(email);
         user.setPassword(_hashPassword(password));
         userRepository.save(user);
-        return "{ \"success\": true, \"data\":{\"id\": " + user.getId() + ",\"access_token\":" + String.valueOf(user.getId()) + "," +
-                "\"expires_in\": 3600" +
-                "}}";
-        // @TODO  return getResponse();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", user.getId());
+        data.put("access_token", Integer.toString(user.getId()));
+        data.put("expires_in", 3600);
+        setData(data);
+
+        return getResponse();
     }
 
 
@@ -87,7 +93,7 @@ public class UserController extends BaseController {
 
         if (!possibleUsers.isPresent()) {
             System.out.println("nouser");
-            return getError("User Exisitiert nicht");
+            return getError("User existiert nicht");
 
         }
         User possibleUser = possibleUsers.get();
@@ -95,10 +101,13 @@ public class UserController extends BaseController {
         if (this.verifyPassword(password, possibleUser.getPassword())) {
             System.out.println("hasUser");
 
-            return "{ \"success\": true, \"data\":{\"id\": " + possibleUser.getId() + ",\"access_token\":" + String.valueOf(possibleUser.getId()) + "," +
-                    "\"expires_in\": 3600" +
-                    "}}";
-            // @TODO  return getResponse();
+            Map<String, Object> data = new HashMap<>();
+            data.put("id", possibleUser.getId());
+            data.put("access_token", Integer.toString(possibleUser.getId()));
+            data.put("expires_in", 3600);
+            setData(data);
+
+            return getResponse();
         }
         System.out.println("error");
         return getError();
