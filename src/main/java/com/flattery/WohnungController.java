@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -228,8 +230,8 @@ public class WohnungController extends BaseController {
             count++;
         }
 
-        data.put("average", totalRent / count);
-        data.put("averageSqM", totalRentSqM / count);
+        data.put("average", _round(totalRent/ count, 2));
+        data.put("averageSqM", _round(totalRentSqM / count, 2));
         setData(data);
 
         return getResponse();
@@ -247,4 +249,8 @@ public class WohnungController extends BaseController {
         return getResponse();
     }
 
+    private static double _round(double value, int precision) {
+
+        return new BigDecimal(value).setScale(precision, RoundingMode.HALF_EVEN).doubleValue();
+    }
 }
