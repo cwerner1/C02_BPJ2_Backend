@@ -53,9 +53,16 @@ public class BaseController {
             return "{\"success\":false,\"errorMessage\":\"Internal error.\"}";
         }
     }
+
     protected JsonNode _JSONParse(String json) throws IOException {
         ObjectMapper objectgmapper = new ObjectMapper();
         return objectgmapper.readTree(json);
     }
 
+    protected static boolean _isReceived(JsonNode jsonNode, String fieldName) {
+        return jsonNode.has(fieldName)
+                && !jsonNode.get(fieldName).asText().equals("null")
+                && !jsonNode.get(fieldName).asText().equals("undefined")
+                && !jsonNode.get(fieldName).asText().equals("");
+    }
 }

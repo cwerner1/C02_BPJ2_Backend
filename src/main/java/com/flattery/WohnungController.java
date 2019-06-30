@@ -247,10 +247,4 @@ public class WohnungController extends BaseController {
         return getResponse();
     }
 
-    private static boolean _isReceived(JsonNode jsonNode, String fieldName) {
-        return jsonNode.has(fieldName)
-                && !jsonNode.get(fieldName).asText().equals("null")
-                && !jsonNode.get(fieldName).asText().equals("undefined")
-                && !jsonNode.get(fieldName).asText().equals("");
-    }
 }
