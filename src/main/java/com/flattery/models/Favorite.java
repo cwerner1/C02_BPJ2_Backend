@@ -4,10 +4,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.time.LocalDateTime;
 
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -24,22 +20,22 @@ public class Favorite {
         this.id = id;
     }
 
-    private Integer Wohnung_id;
-    private Integer User_id;
+    private Integer wohnungID;
+    private Integer userID;
 
-    public Integer getWohnung_id() {
-        return Wohnung_id;
+    public Integer getWohnungID() {
+        return wohnungID;
     }
 
-    public void setWohnung_id(Integer wohnung_id) {
-        Wohnung_id = wohnung_id;
+    public void setWohnungID(Integer wohnungID) {
+        this.wohnungID = wohnungID;
     }
 
-    public Integer getUser_id() {
-        return User_id;
+    public Integer getUserID() {
+        return userID;
     }
 
-    public void setUser_id(Integer user_id) {
-        User_id = user_id;
+    public void setUserID(Integer userID) {
+        this.userID = userID;
     }
 }

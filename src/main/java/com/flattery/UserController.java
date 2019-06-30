@@ -1,7 +1,6 @@
 package com.flattery;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flattery.models.User;
 import com.flattery.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-@Controller    // This means that this class is a Controller
+@RestController    // This means that this class is a Controller
 @RequestMapping(path = "/user") // This means URL's start with /demo (after Application path)
 @CrossOrigin(origins = "http://localhost:8100")
 public class UserController extends BaseController {
@@ -122,8 +121,5 @@ public class UserController extends BaseController {
         return getResponse();
     }
 
-    protected JsonNode _JSONParse(String json) throws IOException {
-        ObjectMapper objectgmapper = new ObjectMapper();
-        return objectgmapper.readTree(json);
-    }
+
 }

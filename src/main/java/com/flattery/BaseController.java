@@ -1,9 +1,11 @@
 package com.flattery;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flattery.models.Wohnung;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -51,6 +53,9 @@ public class BaseController {
             return "{\"success\":false,\"errorMessage\":\"Internal error.\"}";
         }
     }
-
+    protected JsonNode _JSONParse(String json) throws IOException {
+        ObjectMapper objectgmapper = new ObjectMapper();
+        return objectgmapper.readTree(json);
+    }
 
 }

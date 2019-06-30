@@ -4,6 +4,7 @@ import com.flattery.models.Wohnung;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -14,6 +15,7 @@ public interface WohnungRepository extends CrudRepository<Wohnung, Integer> {
 
     Stream<Wohnung> findAllByDescription(String description);
     List<Wohnung> findAllByCity(String city);
-    List<Wohnung> findAllByUserId(Integer id);
+    List<Wohnung> findAllByUserID(Integer id);
+    List<Wohnung> findByIdIn(Collection<Integer> IDS);
 
 }

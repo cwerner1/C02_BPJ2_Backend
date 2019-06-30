@@ -15,7 +15,7 @@ public class Wohnung {
     private Integer id;
 
     private LocalDateTime addedAt;
-    private Integer userId;
+    private Integer userID;
     private String description;
     private double surfaceArea;
     private Integer roomCount;
@@ -57,12 +57,12 @@ public class Wohnung {
         this.addedAt = addedAt;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getUserID() {
+        return userID;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUserID(Integer userID) {
+        this.userID = userID;
     }
 
     public String getDescription() {

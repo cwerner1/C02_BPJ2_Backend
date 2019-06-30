@@ -1,7 +1,5 @@
 package com.flattery;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flattery.mapper.WohnungMapper;
 import com.flattery.models.Wohnung;
 import com.flattery.repositories.WohnungRepository;
@@ -13,7 +11,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Controller    // This means that this class is a Controller
+@RestController    // This means that this class is a Controller
 @RequestMapping(path = "/wohnung") // This means URL's start with /demo (after Application path)
 @CrossOrigin(origins = "http://localhost:8080")
 
@@ -40,11 +38,11 @@ public class WohnungController extends BaseController {
         n.setRoomCount(1);
         n.setDescription("Eine schöne Altbauwohnung mit Loggia");
         n.setPostalCode("8888");
-        n.setUserId(1);
+        n.setUserID(1);
         wohnungRepository.save(n);
 
         Map<String, Integer> data = new HashMap<>();
-        data.put("wohnung_id", n.getId());
+        data.put("wohnungID", n.getId());
         setData(data);
 
         return getResponse();
@@ -61,7 +59,7 @@ public class WohnungController extends BaseController {
             wohnungRepository.save(n);
 
             Map<String, Integer> data = new HashMap<>();
-            data.put("wohnung_id", n.getId());
+            data.put("wohnungID", n.getId());
             setData(data);
 
             return getResponse();
@@ -77,10 +75,12 @@ public class WohnungController extends BaseController {
 
         try {
             Wohnung n = WohnungMapper.readJsonWithObjectMapper(payload);
+            System.out.println(payload);
+            System.out.println(n);
             wohnungRepository.save(n);
 
             Map<String, Integer> data = new HashMap<>();
-            data.put("wohnung_id", n.getId());
+            data.put("wohnungID", n.getId());
             setData(data);
 
             return getResponse();
@@ -180,7 +180,7 @@ public class WohnungController extends BaseController {
     String getAllWohnungenByUserID(@PathVariable String str_id) {
 
         Integer id = Integer.parseInt(str_id);
-        Iterable<Wohnung> wohnungs = wohnungRepository.findAllByUserId(id);
+        Iterable<Wohnung> wohnungs = wohnungRepository.findAllByUserID(id);
 
         setData(wohnungs);
 
