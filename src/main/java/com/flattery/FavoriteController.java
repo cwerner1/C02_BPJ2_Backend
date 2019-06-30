@@ -35,6 +35,12 @@ public class FavoriteController extends BaseController {
     public @ResponseBody
     String addFavorite(@RequestBody String payload) throws IOException {
         JsonNode a = this._JSONParse(payload);
+        if (a.get("userID").asText().equals("null")) {
+            return getError("Received no userID.");
+        }
+        if (a.get("wohnungID").asText().equals("null")) {
+            return getError("Received no wohnungID.");
+        }
         Integer userID = Integer.parseInt(a.get("userID").asText());
         Integer wohnungID = Integer.parseInt(a.get("wohnungID").asText());
 
@@ -77,6 +83,12 @@ public class FavoriteController extends BaseController {
     @PostMapping(path = "/removeByUserIDAndWohnungID")
     public String removeByUserIDAndWohnungID(@RequestBody String payload) throws IOException {
         JsonNode a = this._JSONParse(payload);
+        if (a.get("userID").asText().equals("null")) {
+            return getError("Received no userID.");
+        }
+        if (a.get("wohnungID").asText().equals("null")) {
+            return getError("Received no wohnungID.");
+        }
         Integer userID = Integer.parseInt(a.get("userID").asText());
         Integer favoriteID = Integer.parseInt(a.get("wohnungID").asText());
         try {
@@ -103,6 +115,9 @@ public class FavoriteController extends BaseController {
     @PostMapping(path = "/getAllFavoriteWohnungByUserID")
     public String getAllFavoriteWohnungByUserID(@RequestBody String payload) throws IOException {
         JsonNode a = this._JSONParse(payload);
+        if (a.get("userID").asText().equals("null")) {
+            return getError("Received no userID.");
+        }
         Integer UserID = Integer.parseInt(a.get("userID").asText());
         List<Favorite> l = favoriteRepository.findByUserID(UserID);
 
@@ -118,6 +133,9 @@ public class FavoriteController extends BaseController {
     @PostMapping(path = "/getAllFavoriteByUserId")
     public String getAllFavoriteByUserID(@RequestBody String payload) throws IOException {
         JsonNode a = this._JSONParse(payload);
+        if (a.get("userID").asText().equals("null")) {
+            return getError("Received no userID.");
+        }
         Integer UserID = Integer.parseInt(a.get("userID").asText());
         List<Favorite> l = favoriteRepository.findByUserID(UserID);
         setData(l);

@@ -39,6 +39,14 @@ public class UserController extends BaseController {
     public @ResponseBody
     String registerUser(@RequestBody String payload) throws IOException {
         JsonNode a = this._JSONParse(payload);
+
+        if (a.get("email").asText().equals("null")) {
+            return getError("Received no email.");
+        }
+        if (a.get("password").asText().equals("null")) {
+            return getError("Received no password.");
+        }
+
         String email = a.get("email").asText();
         String password = a.get("password").asText();
         if (userRepository.findAllByEmail(email).isPresent()) {
@@ -87,6 +95,14 @@ public class UserController extends BaseController {
     String loginUser(@RequestBody String payload) throws IOException {
         System.out.println(payload);
         JsonNode a = this._JSONParse(payload);
+
+        if (a.get("email").asText().equals("null")) {
+            return getError("Received no email.");
+        }
+        if (a.get("password").asText().equals("null")) {
+            return getError("Received no password.");
+        }
+
         String email = a.get("email").asText();
         String password = a.get("password").asText();
         Optional<User> possibleUsers = userRepository.findAllByEmail(email);

@@ -1,5 +1,6 @@
 package com.flattery;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.flattery.mapper.WohnungMapper;
 import com.flattery.models.Wohnung;
 import com.flattery.repositories.WohnungRepository;
@@ -137,7 +138,12 @@ public class WohnungController extends BaseController {
 
         String city = null;
         try {
+            JsonNode a = _JSONParse(payload);
             city = _JSONParse(payload).get("city").asText();
+
+            if (city.equals("null") || city.equals("undefined") || city.equals("")) {
+                city = null;
+            }
 
         } catch (IOException e) {
             return getError();
@@ -148,7 +154,8 @@ public class WohnungController extends BaseController {
         data.put("averageSqM", 0.0);
 
         List<Wohnung> wohnungs = new ArrayList<>();
-        if (city != "") {
+
+        if (city != null) {
             wohnungs = wohnungRepository.findAllByCity(city);
         } else {
             Iterable<Wohnung> iterable = wohnungRepository.findAll();
