@@ -35,10 +35,10 @@ public class FavoriteController extends BaseController {
     public @ResponseBody
     String addFavorite(@RequestBody String payload) throws IOException {
         JsonNode a = this._JSONParse(payload);
-        if (a.get("userID").asText().equals("null")) {
+        if (!_isReceived(a, "userID")) {
             return getError("Received no userID.");
         }
-        if (a.get("wohnungID").asText().equals("null")) {
+        if (!_isReceived(a, "wohnungID")) {
             return getError("Received no wohnungID.");
         }
         Integer userID = Integer.parseInt(a.get("userID").asText());
@@ -83,10 +83,10 @@ public class FavoriteController extends BaseController {
     @PostMapping(path = "/removeByUserIDAndWohnungID")
     public String removeByUserIDAndWohnungID(@RequestBody String payload) throws IOException {
         JsonNode a = this._JSONParse(payload);
-        if (a.get("userID").asText().equals("null")) {
+        if (!_isReceived(a, "userID")) {
             return getError("Received no userID.");
         }
-        if (a.get("wohnungID").asText().equals("null")) {
+        if (!_isReceived(a, "wohnungID")) {
             return getError("Received no wohnungID.");
         }
         Integer userID = Integer.parseInt(a.get("userID").asText());
@@ -115,7 +115,7 @@ public class FavoriteController extends BaseController {
     @PostMapping(path = "/getAllFavoriteWohnungByUserID")
     public String getAllFavoriteWohnungByUserID(@RequestBody String payload) throws IOException {
         JsonNode a = this._JSONParse(payload);
-        if (a.get("userID").asText().equals("null")) {
+        if (!_isReceived(a, "userID")) {
             return getError("Received no userID.");
         }
         Integer UserID = Integer.parseInt(a.get("userID").asText());
@@ -133,7 +133,7 @@ public class FavoriteController extends BaseController {
     @PostMapping(path = "/getAllFavoriteByUserId")
     public String getAllFavoriteByUserID(@RequestBody String payload) throws IOException {
         JsonNode a = this._JSONParse(payload);
-        if (a.get("userID").asText().equals("null")) {
+        if (!_isReceived(a, "userID")) {
             return getError("Received no userID.");
         }
         Integer UserID = Integer.parseInt(a.get("userID").asText());
