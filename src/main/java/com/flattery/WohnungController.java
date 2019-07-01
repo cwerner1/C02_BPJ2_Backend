@@ -28,6 +28,8 @@ public class WohnungController extends BaseController {
     }
 
     // TODO @Peter Demo Objekte Befüllen
+
+    // Url: "/wohnung/demoadd"
     @GetMapping(path = "/demoadd") // Map ONLY GET Requests
     public @ResponseBody
     String addNewWohnungDemo() {
@@ -40,6 +42,18 @@ public class WohnungController extends BaseController {
         n.setAddedAt(LocalDateTime.now());
         n.setRoomCount(1);
         n.setDescription("Eine schöne Altbauwohnung mit Loggia");
+        n.setPostalCode("8888");
+        n.setUserID(1);
+        wohnungRepository.save(n);
+      n = new Wohnung();
+        n.setAddress("Tannenstrasse 13");
+        n.setCity("Obiberg");
+        n.setCountry("Steiermark");
+        n.setRent(450);
+        n.setSurfaceArea(50);
+        n.setAddedAt(LocalDateTime.now());
+        n.setRoomCount(2);
+        n.setDescription("Eine schöne Altbauwohnung mit Loggia mit 2 Zimmern");
         n.setPostalCode("8888");
         n.setUserID(1);
         wohnungRepository.save(n);
