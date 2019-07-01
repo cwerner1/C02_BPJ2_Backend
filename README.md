@@ -26,8 +26,9 @@ DatabaseConnection String
 #### Mysql Setup for DAtabse
 ```
 use sys;
-CREATE DATABASE flattery;
+
 CREATE USER 'flattery'@'%' identified by 'Flattery1!';
+CREATE DATABASE flattery;
 use flattery;
 GRANT ALL privileges on flattery.* TO 'flattery'@'%' with grant option ; 
 FLUSH privileges;
