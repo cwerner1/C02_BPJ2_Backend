@@ -402,7 +402,7 @@ public class WohnungController extends BaseController {
             return getResponse();
         }
 
-        Map<String, Map> averageByCity = new HashMap<>();
+        Map<String, Map> averageByCity = new TreeMap<>();
         for (Wohnung w : wohnungs) {
             double surfaceArea = w.getSurfaceArea();
             double rent = w.getRent();
@@ -438,6 +438,7 @@ public class WohnungController extends BaseController {
             averageByCity.put(TOTAL_NAME, values);
         }
 
+        Map<String, Object> objTotal = new HashMap<>();
         for (String c : averageByCity.keySet()) {
             Map<String, Double> values = averageByCity.get(c);
             // values.put("average", _round(values.get("totalRent") / values.get("count"), 2));
@@ -447,12 +448,19 @@ public class WohnungController extends BaseController {
             // values.remove("count");
             // averageByCity.put(c, values);
 
+            if (c.equals(TOTAL_NAME)) {
+                objTotal.put("cityName", c);
+                objTotal.put("average", _round(values.get("totalRent") / values.get("count"), 2));
+                objTotal.put("averageSqM", _round(values.get("totalRentSqM") / values.get("count"), 2));
+                continue;
+            }
             Map<String, Object> objReturn = new HashMap<>();
             objReturn.put("cityName", c);
             objReturn.put("average", _round(values.get("totalRent") / values.get("count"), 2));
             objReturn.put("averageSqM", _round(values.get("totalRentSqM") / values.get("count"), 2));
             data.add(objReturn);
         }
+        data.add(objTotal);
 
         // setData(averageByCity);
         setData(data);
