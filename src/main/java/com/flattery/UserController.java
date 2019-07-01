@@ -40,10 +40,10 @@ public class UserController extends BaseController {
     String registerUser(@RequestBody String payload) throws IOException {
         JsonNode a = this._JSONParse(payload);
 
-        if (a.get("email").asText().equals("null")) {
+        if (!_isReceived(a,"email")) {
             return getError("Received no email.");
         }
-        if (a.get("password").asText().equals("null")) {
+        if (!_isReceived(a,"password")) {
             return getError("Received no password.");
         }
 
@@ -96,10 +96,10 @@ public class UserController extends BaseController {
         System.out.println(payload);
         JsonNode a = this._JSONParse(payload);
 
-        if (a.get("email").asText().equals("null")) {
+        if (!_isReceived(a,"email")) {
             return getError("Received no email.");
         }
-        if (a.get("password").asText().equals("null")) {
+        if (!_isReceived(a,"password")) {
             return getError("Received no password.");
         }
 
