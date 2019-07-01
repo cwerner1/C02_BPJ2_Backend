@@ -27,7 +27,7 @@ public class WohnungController extends BaseController {
         this.wohnungRepository = wohnungRepository2;
     }
 
-    // TODO: Remove me later.
+    // TODO @Peter Demo Objekte Befüllen
     @GetMapping(path = "/demoadd") // Map ONLY GET Requests
     public @ResponseBody
     String addNewWohnungDemo() {
