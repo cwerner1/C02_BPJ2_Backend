@@ -249,6 +249,19 @@ public class WohnungController extends BaseController {
             if (n.getAddedAt() == null) {
                 n.setAddedAt(LocalDateTime.now());
             }
+
+            if (n.getRent() <= 0) {
+                return getError("Die Gesamtmiete muss eine positive Zahl sein.");
+            }
+
+            if (n.getSurfaceArea() <= 0.0) {
+                return getError("Die Wohnfläche muss eine positive Zahl sein.");
+            }
+
+            if (n.getRoomCount() <= 0) {
+                return getError("Die Raumanzahl muss eine positive Zahl sein.");
+            }
+
             wohnungRepository.save(n);
 
             Map<String, Integer> data = new HashMap<>();
@@ -284,10 +297,16 @@ public class WohnungController extends BaseController {
             }
 
             if (_isReceived(a,"surfaceArea")) {
+                if (a.get("surfaceArea").asDouble() <= 0.0) {
+                    return getError("Die Wohnfläche muss eine positive Zahl sein.");
+                }
                 wohnung.setSurfaceArea(a.get("surfaceArea").asDouble());
             }
 
             if (_isReceived(a,"roomCount")) {
+                if (a.get("roomCount").asInt() <= 0) {
+                    return getError("Die Raumanzahl muss eine positive Zahl sein.");
+                }
                 wohnung.setRoomCount(a.get("roomCount").asInt());
             }
 
@@ -304,6 +323,9 @@ public class WohnungController extends BaseController {
             }
 
             if (_isReceived(a,"rent")) {
+                if (a.get("rent").asInt() <= 0) {
+                    return getError("Die Gesamtmiete muss eine positive Zahl sein.");
+                }
                 wohnung.setRent(a.get("rent").asInt());
             }
 
