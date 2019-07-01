@@ -82,7 +82,7 @@ public class WohnungController extends BaseController {
 
         try {
             JsonNode a = _JSONParse(payload);
-            if (!a.has("id") || a.get("id").asText().equals("null")) {
+            if (!_isReceived(a,"id")) {
                 return getError("Received no id.");
             }
 
@@ -145,7 +145,7 @@ public class WohnungController extends BaseController {
         try {
             JsonNode a = _JSONParse(payload);
 
-            if (a.get("wohnungID").asText().equals("null")) {
+            if (!_isReceived(a, "wohnungID")) {
                 return getError("Received no wohnungID.");
             }
 
