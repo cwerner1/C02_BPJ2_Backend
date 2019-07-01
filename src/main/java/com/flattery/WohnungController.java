@@ -193,10 +193,8 @@ public class WohnungController extends BaseController {
         String city = null;
         try {
             JsonNode a = _JSONParse(payload);
-            city = a.get("city").asText();
-
-            if (city.equals("null") || city.equals("undefined") || city.equals("")) {
-                city = null;
+            if (_isReceived(a, "city")) {
+                city = a.get("city").asText();
             }
 
         } catch (IOException e) {
