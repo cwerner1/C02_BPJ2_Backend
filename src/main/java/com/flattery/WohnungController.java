@@ -482,7 +482,9 @@ public class WohnungController extends BaseController {
             objReturn.put("averageSqM", _round(values.get("totalRentSqM") / values.get("count"), 2));
             data.add(objReturn);
         }
-        data.add(objTotal);
+        if (data.size() > 1) {
+            data.add(objTotal);
+        }
 
         // setData(averageByCity);
         setData(data);
