@@ -59,6 +59,10 @@ public class WohnungController extends BaseController {
 
         try {
             Wohnung n = WohnungMapper.readJsonWithObjectMapper(payload);
+
+            if (n.getAddedAt() == null) {
+                n.setAddedAt(LocalDateTime.now());
+            }
             wohnungRepository.save(n);
 
             Map<String, Integer> data = new HashMap<>();
