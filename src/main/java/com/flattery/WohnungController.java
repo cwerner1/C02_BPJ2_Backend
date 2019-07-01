@@ -45,6 +45,7 @@ public class WohnungController extends BaseController {
         n.setPostalCode("8888");
         n.setUserID(1);
         wohnungRepository.save(n);
+
       n = new Wohnung();
         n.setAddress("Tannenstrasse 13");
         n.setCity("Obiberg");
