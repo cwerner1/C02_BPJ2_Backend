@@ -244,22 +244,50 @@ public class WohnungController extends BaseController {
         // @RequestParam means it is a parameter from the GET or POST request
 
         try {
+            JsonNode a = _JSONParse(payload);
+
+            if (!_isReceived(a,"description")) {
+                return getError("Die Beschreibung fehlt.");
+            }
+
+            if (!_isReceived(a,"surfaceArea")) {
+                return getError("Die Wohnfläche fehlt.");
+            } else if (a.get("surfaceArea").asDouble() <= 0.0) {
+                return getError("Die Wohnfläche muss eine positive Zahl sein.");
+            }
+
+            if (!_isReceived(a,"roomCount")) {
+                return getError("Die Raumanzahl fehlt.");
+            } else if (a.get("roomCount").asDouble() <= 0.0) {
+                return getError("Die Raumanzahl muss eine positive Zahl sein.");
+            }
+
+            if (!_isReceived(a,"address")) {
+                return getError("Die Adresse fehlt.");
+            }
+
+            if (!_isReceived(a,"postalCode")) {
+                return getError("Die Postleitzahl fehlt.");
+            }
+
+            if (!_isReceived(a,"country")) {
+                return getError("Das Land fehlt.");
+            }
+
+            if (!_isReceived(a,"rent")) {
+                return getError("Die Miete fehlt.");
+            } else if (a.get("rent").asDouble() <= 0.0) {
+                return getError("Die Gesamtmiete muss eine positive Zahl sein.");
+            }
+
+            if (!_isReceived(a,"city")) {
+                return getError("Die Stadt fehlt.");
+            }
+
             Wohnung n = WohnungMapper.readJsonWithObjectMapper(payload);
 
             if (n.getAddedAt() == null) {
                 n.setAddedAt(LocalDateTime.now());
-            }
-
-            if (n.getRent() <= 0) {
-                return getError("Die Gesamtmiete muss eine positive Zahl sein.");
-            }
-
-            if (n.getSurfaceArea() <= 0.0) {
-                return getError("Die Wohnfläche muss eine positive Zahl sein.");
-            }
-
-            if (n.getRoomCount() <= 0) {
-                return getError("Die Raumanzahl muss eine positive Zahl sein.");
             }
 
             wohnungRepository.save(n);
@@ -304,7 +332,7 @@ public class WohnungController extends BaseController {
             }
 
             if (_isReceived(a,"roomCount")) {
-                if (a.get("roomCount").asInt() <= 0) {
+                if (a.get("roomCount").asDouble() <= 0) {
                     return getError("Die Raumanzahl muss eine positive Zahl sein.");
                 }
                 wohnung.setRoomCount(a.get("roomCount").asInt());
@@ -323,7 +351,7 @@ public class WohnungController extends BaseController {
             }
 
             if (_isReceived(a,"rent")) {
-                if (a.get("rent").asInt() <= 0) {
+                if (a.get("rent").asDouble() <= 0) {
                     return getError("Die Gesamtmiete muss eine positive Zahl sein.");
                 }
                 wohnung.setRent(a.get("rent").asInt());

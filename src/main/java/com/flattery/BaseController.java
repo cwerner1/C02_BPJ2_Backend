@@ -3,12 +3,10 @@ package com.flattery;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flattery.models.Wohnung;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class BaseController {
 
@@ -40,7 +38,7 @@ public class BaseController {
     }
 
     protected String getError() {
-        return getError("Internal Error.");
+        return getError("Interner Fehler.");
     }
 
     protected String _object2JSON(Object object) {
@@ -50,7 +48,7 @@ public class BaseController {
             return objectMapper.writeValueAsString(object);
 
         } catch (JsonProcessingException exc) {
-            return "{\"success\":false,\"errorMessage\":\"Internal error.\"}";
+            return "{\"success\":false,\"errorMessage\":\"Interner Fehler.\"}";
         }
     }
 

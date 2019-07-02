@@ -6,7 +6,6 @@ import com.flattery.models.Wohnung;
 import com.flattery.repositories.FavoriteRepository;
 import com.flattery.repositories.WohnungRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -36,10 +35,10 @@ public class FavoriteController extends BaseController {
     String addFavorite(@RequestBody String payload) throws IOException {
         JsonNode a = this._JSONParse(payload);
         if (!_isReceived(a, "userID")) {
-            return getError("Received no userID.");
+            return getError("Die Benutzer-ID fehlt.");
         }
         if (!_isReceived(a, "wohnungID")) {
-            return getError("Received no wohnungID.");
+            return getError("Die Wohnung-ID fehlt.");
         }
         Integer userID = Integer.parseInt(a.get("userID").asText());
         Integer wohnungID = Integer.parseInt(a.get("wohnungID").asText());
@@ -84,10 +83,10 @@ public class FavoriteController extends BaseController {
     public String removeByUserIDAndWohnungID(@RequestBody String payload) throws IOException {
         JsonNode a = this._JSONParse(payload);
         if (!_isReceived(a, "userID")) {
-            return getError("Received no userID.");
+            return getError("Die Benutzer-ID fehlt.");
         }
         if (!_isReceived(a, "wohnungID")) {
-            return getError("Received no wohnungID.");
+            return getError("Die Wohnung-ID fehlt.");
         }
         Integer userID = Integer.parseInt(a.get("userID").asText());
         Integer favoriteID = Integer.parseInt(a.get("wohnungID").asText());
@@ -116,7 +115,7 @@ public class FavoriteController extends BaseController {
     public String getAllFavoriteWohnungByUserID(@RequestBody String payload) throws IOException {
         JsonNode a = this._JSONParse(payload);
         if (!_isReceived(a, "userID")) {
-            return getError("Received no userID.");
+            return getError("Die Benutzer-ID fehlt.");
         }
         Integer UserID = Integer.parseInt(a.get("userID").asText());
         List<Favorite> l = favoriteRepository.findByUserID(UserID);
@@ -134,7 +133,7 @@ public class FavoriteController extends BaseController {
     public String getAllFavoriteByUserID(@RequestBody String payload) throws IOException {
         JsonNode a = this._JSONParse(payload);
         if (!_isReceived(a, "userID")) {
-            return getError("Received no userID.");
+            return getError("Die Benutzer-ID fehlt.");
         }
         Integer UserID = Integer.parseInt(a.get("userID").asText());
         List<Favorite> l = favoriteRepository.findByUserID(UserID);

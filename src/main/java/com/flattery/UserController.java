@@ -4,16 +4,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.flattery.models.User;
 import com.flattery.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @RestController    // This means that this class is a Controller
 @RequestMapping(path = "/user") // This means URL's start with /demo (after Application path)
@@ -41,16 +38,16 @@ public class UserController extends BaseController {
         JsonNode a = this._JSONParse(payload);
 
         if (!_isReceived(a,"email")) {
-            return getError("Received no email.");
+            return getError("Die E-Mail fehlt.");
         }
         if (!_isReceived(a,"password")) {
-            return getError("Received no password.");
+            return getError("Das Passwort fehlt.");
         }
 
         String email = a.get("email").asText();
         String password = a.get("password").asText();
         if (userRepository.findAllByEmail(email).isPresent()) {
-            return getError("User Exists");
+            return getError("Der Benutzer existiert schon.");
         }
         User user = new User();
         user.setEmail(email);
@@ -97,10 +94,10 @@ public class UserController extends BaseController {
         JsonNode a = this._JSONParse(payload);
 
         if (!_isReceived(a,"email")) {
-            return getError("Received no email.");
+            return getError("Die E-Mail fehlt.");
         }
         if (!_isReceived(a,"password")) {
-            return getError("Received no password.");
+            return getError("Das Passwort fehlt..");
         }
 
         String email = a.get("email").asText();
@@ -109,7 +106,7 @@ public class UserController extends BaseController {
 
         if (!possibleUsers.isPresent()) {
             System.out.println("nouser");
-            return getError("User existiert nicht");
+            return getError("Der Benutzer existiert nicht");
 
         }
         User possibleUser = possibleUsers.get();
@@ -138,7 +135,7 @@ public class UserController extends BaseController {
         Optional<User> wohnungOptional = userRepository.findById(id);
         if (!wohnungOptional.isPresent()) {
 
-            return getError("Dieser User existiert nicht.");
+            return getError("Dieser Benutzer existiert nicht.");
         }
         User user = wohnungOptional.get();
         setData(user);
