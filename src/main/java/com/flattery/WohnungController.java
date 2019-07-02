@@ -22,13 +22,11 @@ public class WohnungController extends BaseController {
     @Autowired
     WohnungRepository wohnungRepository;
 
-    private static final String TOTAL_NAME = "GESAMT";
+//    private static final String TOTAL_NAME = "GESAMT";
 
     public WohnungController(WohnungRepository wohnungRepository2) {
         this.wohnungRepository = wohnungRepository2;
     }
-
-    // TODO @Peter Demo Objekte Befüllen
 
     // Url: "/wohnung/demoadd"
     @GetMapping(path = "/demoadd") // Map ONLY GET Requests
@@ -467,13 +465,13 @@ public class WohnungController extends BaseController {
                 averageByCity.put(currentCity, values);
             }
 
-            if (!averageByCity.containsKey(TOTAL_NAME)) {
-                Map<String, Double> values = new HashMap<>();
-                values.put("totalRent", 0.0);
-                values.put("totalRentSqM", 0.0);
-                values.put("count", 0.0);
-                averageByCity.put(TOTAL_NAME, values);
-            }
+//            if (!averageByCity.containsKey(TOTAL_NAME)) {
+//                Map<String, Double> values = new HashMap<>();
+//                values.put("totalRent", 0.0);
+//                values.put("totalRentSqM", 0.0);
+//                values.put("count", 0.0);
+//                averageByCity.put(TOTAL_NAME, values);
+//            }
 
             Map<String, Double> values = averageByCity.get(currentCity);
             values.put("totalRent", values.get("totalRent") + rent);
@@ -481,11 +479,11 @@ public class WohnungController extends BaseController {
             values.put("count", values.get("count") + 1.0);
             averageByCity.put(currentCity, values);
 
-            values = averageByCity.get(TOTAL_NAME);
-            values.put("totalRent", values.get("totalRent") + rent);
-            values.put("totalRentSqM", values.get("totalRentSqM") + rentSqM);
-            values.put("count", values.get("count") + 1.0);
-            averageByCity.put(TOTAL_NAME, values);
+//            values = averageByCity.get(TOTAL_NAME);
+//            values.put("totalRent", values.get("totalRent") + rent);
+//            values.put("totalRentSqM", values.get("totalRentSqM") + rentSqM);
+//            values.put("count", values.get("count") + 1.0);
+//            averageByCity.put(TOTAL_NAME, values);
         }
 
         Map<String, Object> objTotal = new HashMap<>();
@@ -498,21 +496,21 @@ public class WohnungController extends BaseController {
             // values.remove("count");
             // averageByCity.put(c, values);
 
-            if (c.equals(TOTAL_NAME)) {
-                objTotal.put("cityName", c);
-                objTotal.put("average", _round(values.get("totalRent") / values.get("count"), 2));
-                objTotal.put("averageSqM", _round(values.get("totalRentSqM") / values.get("count"), 2));
-                continue;
-            }
+//            if (c.equals(TOTAL_NAME)) {
+//                objTotal.put("cityName", c);
+//                objTotal.put("average", _round(values.get("totalRent") / values.get("count"), 2));
+//                objTotal.put("averageSqM", _round(values.get("totalRentSqM") / values.get("count"), 2));
+//                continue;
+//            }
             Map<String, Object> objReturn = new HashMap<>();
             objReturn.put("cityName", c);
             objReturn.put("average", _round(values.get("totalRent") / values.get("count"), 2));
             objReturn.put("averageSqM", _round(values.get("totalRentSqM") / values.get("count"), 2));
             data.add(objReturn);
         }
-        if (data.size() > 1) {
-            data.add(objTotal);
-        }
+//        if (data.size() > 1) {
+//            data.add(objTotal);
+//        }
 
         // setData(averageByCity);
         setData(data);
