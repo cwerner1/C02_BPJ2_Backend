@@ -90,7 +90,6 @@ public class UserController extends BaseController {
     @PostMapping(path = "/login") // Map ONLY GET Requests
     public @ResponseBody
     String loginUser(@RequestBody String payload) throws IOException {
-        System.out.println(payload);
         JsonNode a = this._JSONParse(payload);
 
         if (!_isReceived(a,"email")) {
