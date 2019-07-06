@@ -8,6 +8,8 @@ jdk:
 #branches:
 #  only:
 #    - master
+before_install:
+  - export LANG=en_DK.UTF-8
 
 # Travis CI enable caching
 before_cache:
